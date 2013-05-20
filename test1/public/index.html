@@ -1,0 +1,68 @@
+<html>
+<head>
+    <title>Euphausia</title>
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+
+    <style>
+        body{
+            background: #000;
+            font-family:   Arial, sans;
+            color: #fff;
+        }
+
+        #page{
+            background: #002066;
+            text-align: center;
+            position: fixed;
+            top:10px;
+            bottom:10px;
+            left:10px;
+            right: 10px;
+        }
+    </style>
+
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () { 
+            var socket = io.connect(); 
+            socket.on('message', function (data) {
+
+                var obj = JSON.parse(data);
+
+                if(obj.poke) { 
+                    $('#message').text(obj.message);
+
+                } else if(obj.message) { 
+                    $('#sms').val(obj.data);
+
+                } else { 
+
+                    $('#timestamp').text(obj.timestamp); 
+                    $('#clients').text(obj.clients); 
+
+                } 
+            }); 
+            $("#poke").click(function() {
+                socket.send("Poke");
+            });
+
+            $("#sms_btn").click(function() {
+                socket.send( $("#sms").val() );
+            });
+
+            //JSON.stringify
+        });
+    </script>
+</head>
+<body>
+    <div id="page">
+        <h2>Euphausia</h2>
+        
+        <p>
+        <textarea type="text" name="sms" id="sms" maxlength="144"></textarea>
+        </p>
+        <button id="sms_btn">Envoyer votre message !</button>
+    </div>
+</body>
+</html>
