@@ -2,6 +2,8 @@
 <head>
     <title>Euphausia</title>
     <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="images/app-icon.png"/>
 
     <style>
         body{
@@ -9,6 +11,44 @@
             font-family:   Arial, sans;
             color: #fff;
             margin: 0;
+        }
+
+        .gradient {
+            /* Anciens navigateurs */
+            background: #bbbbbb url("gradient-bg.png") repeat-x top;
+            -o-background-size: 100% 100%;
+            -moz-background-size: 100% 100%;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+            /* Navigateurs récents */
+            background: -webkit-gradient(
+                linear,
+                left top, left bottom,
+                from(#666666),
+                to(#bbbbbb)
+            );
+            background: -webkit-linear-gradient(
+                top,
+                #666666,
+                #bbbbbb
+            );
+            background: -moz-linear-gradient(
+                top,
+                #666666,
+                #bbbbbb
+            );
+            background: -o-linear-gradient(
+                top,
+                #666666,
+                #bbbbbb
+            );
+            background: linear-gradient(
+                top,
+                #666666,
+                #bbbbbb
+            );
+            border-radius: solid 1px #DDDDDD;
+            color:#DDDDDD;
         }
 
         #page{
@@ -19,6 +59,20 @@
             bottom:0px;
             left:0px;
             right: 0px;
+        }
+
+        textarea{
+            font-size:20px;
+            width:300px;
+            margin: 10px;
+            height: 120px;
+        }
+
+        button{
+            font-size: 20px;
+            background: #F00;
+            padding: 20px;
+            -webkit-border-radius:4px;
         }
     </style>
 
@@ -51,6 +105,8 @@
             $("#sms_btn").click(function() {
                 alert($("#sms").val());
                 socket.send( $("#sms").val() );
+
+                $("#sms").val(""); 
             });
 
             //JSON.stringify
@@ -62,7 +118,7 @@
         <p>
         <textarea type="text" name="sms" id="sms" maxlength="144"></textarea>
         </p>
-        <p><button id="sms_btn">Envoyez votre message !</button></p>
+        <p><button id="sms_btn" class="gradient">Envoyez votre message !</button></p>
         <p><img src="images/logo.png" alt="Logo Euphausia"></p>
     </div>
 </body>
