@@ -8,16 +8,17 @@
             background: #000;
             font-family:   Arial, sans;
             color: #fff;
+            margin: 0;
         }
 
         #page{
             background: #002066;
             text-align: center;
             position: fixed;
-            top:10px;
-            bottom:10px;
-            left:10px;
-            right: 10px;
+            top:0px;
+            bottom:0px;
+            left:0px;
+            right: 0px;
         }
     </style>
 
@@ -48,6 +49,7 @@
             });
 
             $("#sms_btn").click(function() {
+                alert($("#sms").val());
                 socket.send( $("#sms").val() );
             });
 
@@ -56,13 +58,12 @@
     </script>
 </head>
 <body>
-    <div id="page">
-        <h2>Euphausia</h2>
-        
+    <div id="page">        
         <p>
         <textarea type="text" name="sms" id="sms" maxlength="144"></textarea>
         </p>
-        <button id="sms_btn">Envoyer votre message !</button>
+        <p><button id="sms_btn">Envoyez votre message !</button></p>
+        <p><img src="images/logo.png" alt="Logo Euphausia"></p>
     </div>
 </body>
 </html>

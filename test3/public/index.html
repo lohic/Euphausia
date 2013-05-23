@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>Euphausia</title>
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+
+   
+   <script src="/socket.io/socket.io.js"></script>
+   <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script>
+      var socket = io.connect('http://localhost');
+      socket.on('news', function (data) {
+        console.log(data);
+        socket.emit('my other event', { my: 'data' });
+      });
+
+      $(document).ready(function(){
+
+        alert('ok');
+
+      });
+
+    </script>
+
+    
+</head>
+<body>
+    <div id="page">        
+        <p>
+        <textarea type="text" name="sms" id="sms" maxlength="144"></textarea>
+        </p>
+        <p><button id="sms_btn">Envoyez votre message !</button></p>
+        <p><img src="images/logo.png" alt="Logo Euphausia"></p>
+    </div>
+</body>
+</html>

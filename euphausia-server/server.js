@@ -9,8 +9,11 @@ var app = require('http').createServer(handler)
   , server = http.createServer(app)
   , io = require('socket.io').listen(server);*/
 
-io.set('log level', 2);
+io.set('log level', 3);
 app.listen(8333);
+//app.listen(80);//
+//
+console.log("SERVER LISTENING ON PORT 8333");
 
 
 function handler (req, res) {
