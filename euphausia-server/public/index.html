@@ -1,13 +1,13 @@
 <html>
 <head>
     <title>Euphausia</title>
-    <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, height=device-height, maximum-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="apple-touch-icon" href="images/app-icon.png"/>
 
     <style>
         body{
-            background: #000;
+            background: #99ffff;
             font-family:   Arial, sans;
             color: #fff;
             margin: 0;
@@ -52,7 +52,7 @@
         }
 
         #page{
-            background: #002066;
+            background: #99ffff;
             text-align: center;
             position: fixed;
             top:0px;
@@ -63,16 +63,28 @@
 
         textarea{
             font-size:20px;
-            width:300px;
+            width:264px;
             margin: 10px;
             height: 120px;
+            background: none;
+            border : solid 4px #FFF;
+            color: #000;
+            -webkit-border-radius:0;
+            --webkit-box-shadow: 0;
         }
 
         button{
-            font-size: 20px;
-            background: #F00;
+            font-size: 15px;
+            background: none;
             padding: 20px;
-            -webkit-border-radius:4px;
+            border : solid 4px #FFF;
+            color: #FFF;
+            text-transform: uppercase;
+        }
+
+        img{
+            width:120px;
+            height: auto;
         }
     </style>
 
@@ -118,7 +130,7 @@
         <p>
         <textarea type="text" name="sms" id="sms" maxlength="144"></textarea>
         </p>
-        <p><button id="sms_btn" class="gradient">Envoyez votre message !</button></p>
+        <p><button id="sms_btn" class="">Envoyez votre message !</button></p>
         <p><img src="images/logo.png" alt="Logo Euphausia"></p>
     </div>
 </body>
