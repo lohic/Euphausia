@@ -50,40 +50,34 @@
         }
     </style>
 
-    <script src="js/jquery-1.9.1.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () { 
-            var socket = io.connect(); 
-            socket.on('message', function (data) {
+       
 
-                var obj = JSON.parse(data);
+        var socket = io.connect();
 
-                if(obj.poke) { 
-                    $('#message').text(obj.message);
+        socket.on('message', function (data) {
+            console.log(data);
 
-                } else if(obj.message) { 
-                    $('#sms').val(obj.data);
+            //alert('ok');
 
-                } else { 
+            var obj = JSON.parse(data);
+            if(obj.validation=='ok'){
+                $("#sms")
+                .val('')
+                .css('border-color','#666')
+                .delay(10000)
+                .css('border-color','#FFF');
+            }
+        });
 
-                    $('#timestamp').text(obj.timestamp); 
-                    $('#clients').text(obj.clients); 
+        $(document).ready(function(){
 
-                } 
-            }); 
-            $("#poke").click(function() {
-                socket.send("Poke");
+            $("#sms_btn").click(function(e){
+                socket.send($("#sms").val());
             });
 
-            $("#sms_btn").click(function() {
-                alert($("#sms").val());
-                socket.send( $("#sms").val() );
-
-                $("#sms").val(""); 
-            });
-
-            //JSON.stringify
         });
     </script>
 </head>
