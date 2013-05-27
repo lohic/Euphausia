@@ -13,44 +13,6 @@
             margin: 0;
         }
 
-        .gradient {
-            /* Anciens navigateurs */
-            background: #bbbbbb url("gradient-bg.png") repeat-x top;
-            -o-background-size: 100% 100%;
-            -moz-background-size: 100% 100%;
-            -webkit-background-size: 100% 100%;
-            background-size: 100% 100%;
-            /* Navigateurs récents */
-            background: -webkit-gradient(
-                linear,
-                left top, left bottom,
-                from(#666666),
-                to(#bbbbbb)
-            );
-            background: -webkit-linear-gradient(
-                top,
-                #666666,
-                #bbbbbb
-            );
-            background: -moz-linear-gradient(
-                top,
-                #666666,
-                #bbbbbb
-            );
-            background: -o-linear-gradient(
-                top,
-                #666666,
-                #bbbbbb
-            );
-            background: linear-gradient(
-                top,
-                #666666,
-                #bbbbbb
-            );
-            border-radius: solid 1px #DDDDDD;
-            color:#DDDDDD;
-        }
-
         #page{
             background: #99ffff;
             text-align: center;
@@ -130,7 +92,7 @@
         <p>
         <textarea type="text" name="sms" id="sms" maxlength="144"></textarea>
         </p>
-        <p><button id="sms_btn" class="">Envoyez votre message !</button></p>
+        <p><button id="sms_btn">Envoyez votre message !</button></p>
         <p><img src="images/logo.png" alt="Logo Euphausia"></p>
     </div>
 </body>
