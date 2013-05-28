@@ -70,20 +70,7 @@ io.sockets.on('connection', function (socket) {
     tcpClient.connect(tcp_PORT, function() {
         console.info('HTTP CLIENT conected to :  localhost:' + tcp_PORT);
 
-        /*tcpClient.on('data', function(data) {
-            console.log('DATA: ' + data);
-            socket.emit("httpServer", data);
-        });*/
-
-        /*tcpClient.on('end', function(data) {
-            console.log('END DATA : ' + data);
-        });*/
-    });
-    
-    /*socket.on('tcp-manager', function(message) {
-        console.log('"tcp" : ' + message);
-        return;
-    });*/
+    });   
 
     socket.on('disconnect', function () {
         io.sockets.emit('user disconnected');
