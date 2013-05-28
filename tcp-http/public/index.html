@@ -1,0 +1,75 @@
+<html>
+<head>
+    <title>Euphausia</title>
+    <meta name="viewport" content="width=device-width, height=device-height, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="images/app-icon.png"/>
+
+    <style>
+        body{
+            background: #99ffff;
+            font-family:   Arial, sans;
+            color: #fff;
+            margin: 0;
+        }
+
+        #page{
+            background: #99ffff;
+            text-align: center;
+            position: fixed;
+            top:0px;
+            bottom:0px;
+            left:0px;
+            right: 0px;
+        }
+
+        textarea{
+            font-size:20px;
+            width:264px;
+            margin: 10px;
+            height: 120px;
+            background: none;
+            border : solid 4px #FFF;
+            color: #000;
+            -webkit-border-radius:0;
+            --webkit-box-shadow: 0;
+        }
+
+        button{
+            font-size: 15px;
+            background: none;
+            padding: 20px;
+            border : solid 4px #FFF;
+            color: #FFF;
+            text-transform: uppercase;
+        }
+
+        img{
+            width:120px;
+            height: auto;
+        }
+    </style>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript">
+       
+
+        var socket = io.connect('http://localhost');
+        socket.on('httpServer', function (data) {
+            console.log(data);
+            document.write(data + "\r\n");
+            socket.emit('tcp', "For TCP");
+        });
+    </script>
+</head>
+<body>
+    <div id="page">        
+        <p>
+        <textarea type="text" name="sms" id="sms" maxlength="144"></textarea>
+        </p>
+        <p><button id="sms_btn">Envoyez votre message !</button></p>
+        <p><img src="images/logo.png" alt="Logo Euphausia"></p>
+    </div>
+</body>
+</html>
