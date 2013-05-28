@@ -20,10 +20,10 @@ function onFlashConnect()
 // When flash sends us data, this method will handle it
 function onFlashData(d)
 { 
-    console.log("From Flash = " + d);
     if(d == 'flash data'){
         console.log(d);
     }else{
+        console.log("From Flash to Flash= " + d);
         flashSocket.write(d, 'utf8');        
     }
 }
@@ -50,7 +50,7 @@ app.get('/', function (req, res) {});
 io.set('log level', 2);
 
 
-tcpsock = require('net');
+tcpSocket = require('net');
 
 
 io.sockets.on('connection', function (socket) {
@@ -63,42 +63,40 @@ io.sockets.on('connection', function (socket) {
     ///
     ///http://stackoverflow.com/questions/11967958/create-websockets-between-a-tcp-server-and-http-server-in-node-js
     ///
-    var tcpClient = new tcpsock.Socket();
-    //tcpClient.setEncoding("utf8");
+    var tcpClient = new tcpSocket.Socket();
+    tcpClient.setEncoding("utf8");
     tcpClient.setKeepAlive(true);
 
     tcpClient.connect(tcp_PORT, function() {
-        console.info('CONNECTED TO :  localhost:' + tcp_PORT);
+        console.info('HTTP CLIENT conected to :  localhost:' + tcp_PORT);
 
         /*tcpClient.on('data', function(data) {
             console.log('DATA: ' + data);
             socket.emit("httpServer", data);
         });*/
 
-        tcpClient.on('end', function(data) {
+        /*tcpClient.on('end', function(data) {
             console.log('END DATA : ' + data);
-        });
+        });*/
     });
     
-    socket.on('tcp-manager', function(message) {
+    /*socket.on('tcp-manager', function(message) {
         console.log('"tcp" : ' + message);
         return;
+    });*/
+
+    socket.on('disconnect', function () {
+        io.sockets.emit('user disconnected');
     });
 
-    //socket.emit("httpServer", "Initial Data");
-    ///
-
-    //socket.on('disconnect', function () {
-    //    io.sockets.emit('user disconnected');
-    //});
-
     socket.on('message', function(data) {
-        console.log("to flash : "+data);
         socket.send(
             JSON.stringify({
                validation :'ok'
             })
         );
-        tcpClient.write(data,'utf8');
+        // on envoie le contenu au serveur TCP
+        console.log("From http to flash socket : "+data);
+        tcpClient.write(data+"\0");
     });
 });
