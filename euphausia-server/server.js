@@ -1,4 +1,4 @@
-var tcp_PORT = 9001;
+var tcp_PORT = 18000;
 
 /*********/
 /* FLASH */
@@ -68,7 +68,7 @@ io.sockets.on('connection', function (socket) {
     tcpClient.setKeepAlive(true);
 
     tcpClient.connect(tcp_PORT, function() {
-        console.info('HTTP CLIENT conected to :  localhost:' + tcp_PORT);
+        console.info('HTTP CLIENT connected to :  localhost:' + tcp_PORT);
 
     });   
 
@@ -83,7 +83,55 @@ io.sockets.on('connection', function (socket) {
             })
         );
         // on envoie le contenu au serveur TCP
-        console.log("From http to flash socket : "+data);
-        tcpClient.write(data+"\0");
+        console.log("From http to flash socket : "+formateMessage(data));
+        tcpClient.write(formateMessage(data)+"\0");
     });
 });
+
+var actions = {
+    0 : {"type":"color","code":"FF0000"},
+    1 : {"type":"color","code":"00FF00"},
+    2 : {"type":"color","code":"0000FF"},
+    3 : {"type":"color","code":"FFFF00"},
+    4 : {"type":"color","code":"FF00FF"},
+    5 : {"type":"color","code":"00FFFF"},
+    6 : {"type":"creature","code":"explode"},
+    7 : {"type":"creature","code":"create"},
+    8 : {"type":"creature","code":"cleaner"},
+    9 : {"type":"creature","code":"die"}
+};
+var nbr_actions = 10;
+
+function formateMessage(txt){
+    var texte_array = txt.split(" ");
+    var nbrMots     = texte_array.length;
+
+    for (j=nbrMots-1;j>=0;j--){
+        if(texte_array[j] == "" || texte_array[j] == "\n" || texte_array[j] == "\r" || texte_array[j]== undefined){
+            texte_array.splice(j,1);
+        }
+    }
+
+    nbrMots     = texte_array.length;
+    idMotAction = Math.floor(Math.random()*nbrMots);
+
+    idAction = Math.floor(Math.random()*nbr_actions);
+
+    type = actions[idAction]["type"];
+    code = actions[idAction]["code"];
+
+
+    var retour      = '<phrase>';
+
+    for(j=0;j<nbrMots;j++){
+        if(j==idMotAction){
+            retour = retour + '<mot texte="'+texte_array[j]+'" code="'+type+'" valeur="'+code+'" />';
+        }else{
+            retour = retour + '<mot texte="'+texte_array[j]+'" code="" valeur="" />'; 
+        }
+    }
+
+    retour = retour + '</phrase>';
+
+    return retour;
+}
