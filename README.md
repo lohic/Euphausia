@@ -11,6 +11,14 @@ Code pour le projet Euphausia
 
 *** http://lookingfora.name/2012/12/08/raspberry-pi-creer-un-point-dacces-wifi-avec-portail-captif/
 
+- http://piratebox.aod-rpg.de/dokuwiki/doku.php?id=raspberry
+- http://piratebox.aod-rpg.de/dokuwiki/doku.php/piratebox_as_source
+- http://piratebox.aod-rpg.de/dokuwiki/doku.php/modifications/lighttpd_051#php_for_piratebox
+- http://forum.daviddarts.
+- http://daviddarts.com/piratebox/?title=PirateBox
+
+- https://github.com/crypto-scythe/piratebox
+
 reintialiser la config reseau :
 `sudo /etc/init.d/networking restart`
 
