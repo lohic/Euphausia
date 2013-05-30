@@ -1,13 +1,15 @@
 var tcp_PORT = 18000;
+var tcp_HOST = "192.168.1.100";
 
 /*********/
 /* FLASH */
 /*********/
-var net = require('net');
+/*var net = require('net');
 var flashSocket;
 
 var flashServer = net.createServer(function(socket) {
     flashSocket = socket;
+    flashSocket.setKeepAlive(true);
     flashSocket.on("connect", onFlashConnect);
     flashSocket.on("data", onFlashData);
 });
@@ -30,8 +32,7 @@ function onFlashData(d)
 
 // listen for connections
 flashServer.listen(tcp_PORT);
-
-
+*/
 
 /*********/
 /* HTML **/
@@ -67,10 +68,27 @@ io.sockets.on('connection', function (socket) {
     tcpClient.setEncoding("utf8");
     tcpClient.setKeepAlive(true);
 
-    tcpClient.connect(tcp_PORT, function() {
-        console.info('HTTP CLIENT connected to :  localhost:' + tcp_PORT);
+    tcpClient.connect(tcp_PORT, tcp_HOST, function() {
+        console.info('HTTP CLIENT connected to :  tcp_HOST:' + tcp_PORT);
 
+        // TEST
+        tcpClient.on('data', function(data) {
+            console.log('DATA: ' + data);
+            socket.emit("httpServer", data);
+        });
+
+        tcpClient.on('end', function(data) {
+            console.log('END DATA : ' + data);
+        });
+        // END TEST
     });   
+
+    // TEST
+    socket.on('tcp-manager', function(message) {
+        console.log('"tcp" : ' + message);
+        return;
+    });
+    // END TEST
 
     socket.on('disconnect', function () {
         io.sockets.emit('user disconnected');
@@ -88,6 +106,14 @@ io.sockets.on('connection', function (socket) {
     });
 });
 
+
+
+
+
+
+//**************//
+// FILTRAGE SMS //
+//**************//
 var actions = {
     0 : {"type":"color","code":"FF0000"},
     1 : {"type":"color","code":"00FF00"},
