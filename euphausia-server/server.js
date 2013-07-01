@@ -1,38 +1,6 @@
 var tcp_PORT = 18000;
 var tcp_HOST = "192.168.1.100";
 
-/*********/
-/* FLASH */
-/*********/
-/*var net = require('net');
-var flashSocket;
-
-var flashServer = net.createServer(function(socket) {
-    flashSocket = socket;
-    flashSocket.setKeepAlive(true);
-    flashSocket.on("connect", onFlashConnect);
-    flashSocket.on("data", onFlashData);
-});
-
-function onFlashConnect()
-{
-    console.log("Connected to Flash");
-}
-
-// When flash sends us data, this method will handle it
-function onFlashData(d)
-{ 
-    if(d == 'flash data'){
-        console.log(d);
-    }else{
-        console.log("From Flash to Flash= " + d);
-        flashSocket.write(d, 'utf8');        
-    }
-}
-
-// listen for connections
-flashServer.listen(tcp_PORT);
-*/
 
 /*********/
 /* HTML **/
@@ -40,16 +8,22 @@ flashServer.listen(tcp_PORT);
 var allClients = 0; 
 var clientId = 1;
 var express = require('express');
-var app = require('express')()
-  , server = require('http').createServer(app)
+var html = require('express')()
+  , server = require('http').createServer(html)
   , io = require('socket.io').listen(server); 
 
 server.listen(8333);
-app.use(express.static(__dirname + '/public'));
-app.get('/', function (req, res) {});
+
+html.use(express.static(__dirname + '/public'));
+var req = html.get('/', function (req, res) {});
+req.on('error', function (e) {
+    console.log(e);
+});
+req.on("socket", function (socket) {
+  socket.emit("agentRemove");
+});
 
 io.set('log level', 2);
-
 
 tcpSocket = require('net');
 
@@ -60,6 +34,8 @@ io.sockets.on('connection', function (socket) {
         "obj": socket 
     };
     clientId += 1; 
+
+    socket.emit("agentRemove");
 
     ///
     ///http://stackoverflow.com/questions/11967958/create-websockets-between-a-tcp-server-and-http-server-in-node-js
@@ -80,8 +56,17 @@ io.sockets.on('connection', function (socket) {
         tcpClient.on('end', function(data) {
             console.log('END DATA : ' + data);
         });
+
+        tcpClient.on('error', function(e) {
+            console.log(e);
+        });
+
+        tcpClient.on("socket", function (socket) {
+          socket.emit("agentRemove");
+        });
         // END TEST
-    });   
+    });
+   
 
     // TEST
     socket.on('tcp-manager', function(message) {
@@ -103,7 +88,13 @@ io.sockets.on('connection', function (socket) {
         // on envoie le contenu au serveur TCP
         console.log("From http to flash socket : "+formateMessage(data));
         tcpClient.write(formateMessage(data)+"\0");
+        
     });
+
+    socket.on('error',function(e){
+        console.log(e);
+    });
+
 });
 
 
